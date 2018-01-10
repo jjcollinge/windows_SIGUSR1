@@ -41,5 +41,9 @@ func main() {
 		log.Println("Windows event object already exists")
 	}
 	// Signal event
-	windows.SetEvent(handle)
+	err = windows.SetEvent(handle)
+	if err != nil {
+		log.Fatalf("Error signaling event: %+v", err)
+	}
+	windows.CloseHandle(handle)
 }
