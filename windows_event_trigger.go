@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"strconv"
 
@@ -19,12 +20,12 @@ Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ms686670(v=v
 const (
 	EVENT_ALL_ACCESS   = "1F0003"
 	EVENT_MODIFY_STATE = "0002"
-
-	EVENT_NAME = "SIGUSR1" // Event name must match the value defined in Traefik::server_signals_windows.go
 )
 
 func main() {
-	namep, _ := windows.UTF16PtrFromString(EVENT_NAME)
+	eventName := flag.String("eventId", "1234", "name of the Windows event object to signal")
+	flag.Parse()
+	namep, _ := windows.UTF16PtrFromString(*eventName)
 	// Convert Standard Access Rights hex code to integer
 	i, err := strconv.ParseUint(EVENT_ALL_ACCESS, 16, 32)
 	desiredAccess := uint32(i)
