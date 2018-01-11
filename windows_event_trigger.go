@@ -34,17 +34,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create Windows event object: %+v", err)
 	}
+	defer windows.CloseHandle(handle)
 	if handle == windows.InvalidHandle {
 		log.Fatalf("Invalid Windows event object handle")
 	}
 	lastErr := windows.GetLastError()
 	if lastErr == windows.ERROR_ALREADY_EXISTS {
-		log.Println("Windows event object already exists")
+		log.Println("nothing to see here kids...")
 	}
 	// Signal event
 	err = windows.SetEvent(handle)
 	if err != nil {
 		log.Fatalf("Error signaling event: %+v", err)
 	}
-	windows.CloseHandle(handle)
 }
